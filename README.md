@@ -133,7 +133,7 @@ const FormComponent = () => {
     },
     schema,
   });
-  const { register } = fromProps;
+  const { register } = formProps;
 
   return (
     <>
