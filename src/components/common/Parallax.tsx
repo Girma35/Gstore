@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useElementPosition } from '@/hooks'
+import { useElementPosition } from "@/hooks/useElementPosition";
 import {
   DetailedHTMLProps,
   FC,
@@ -8,21 +8,21 @@ import {
   ReactNode,
   useMemo,
   useRef,
-} from 'react'
+} from "react";
 
 export const Parallax: FC<
   {
-    speedX?: number
-    speedY?: number
-    children: ReactNode | FC<{ position: number }>
+    speedX?: number;
+    speedY?: number;
+    children: ReactNode | FC<{ position: number }>;
   } & Omit<
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
-    'children'
+    "children"
   >
 > = ({ speedX = 0, speedY = 0, children: Children, ...props }) => {
-  const ref = useRef(null)
-  const { position } = useElementPosition(ref)
-  const MemoizedChildren = useMemo(() => Children, [])
+  const ref = useRef(null);
+  const { position } = useElementPosition(ref);
+  const MemoizedChildren = useMemo(() => Children, []);
   return (
     <div
       {...(props as any)}
@@ -32,11 +32,11 @@ export const Parallax: FC<
         ...props.style,
       }}
     >
-      {typeof MemoizedChildren === 'function' ? (
+      {typeof MemoizedChildren === "function" ? (
         <MemoizedChildren position={position} />
       ) : (
         MemoizedChildren
       )}
     </div>
-  )
-}
+  );
+};

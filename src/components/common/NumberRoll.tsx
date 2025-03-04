@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { useHasBeenOnScreen } from '@/hooks'
-import { DetailedHTMLProps, FC, HTMLAttributes, useRef } from 'react'
+import { useHasBeenOnScreen } from "@/hooks/useHasBeenOnScreen";
+import { DetailedHTMLProps, FC, HTMLAttributes, useRef } from "react";
 
-const NUMBER_OF_ROLLS = 4
+const NUMBER_OF_ROLLS = 4;
 
 const getFontProps = (fontSize: number) => {
-  const offset = (16 * fontSize - 392) / 25
-  const numGap = 5
-  const numHeight = fontSize + 3
-  const numHeightWithGap = numHeight + numGap
+  const offset = (16 * fontSize - 392) / 25;
+  const numGap = 5;
+  const numHeight = fontSize + 3;
+  const numHeightWithGap = numHeight + numGap;
 
-  return { offset, numGap, numHeight, numHeightWithGap }
-}
+  return { offset, numGap, numHeight, numHeightWithGap };
+};
 
 const Roll: FC<{
-  num: number
-  idx: number
-  fontSize: number
-  hasBeenOnScreen: boolean
+  num: number;
+  idx: number;
+  fontSize: number;
+  hasBeenOnScreen: boolean;
 }> = ({ num, idx, fontSize, hasBeenOnScreen }) => {
-  const { offset, numHeight, numHeightWithGap } = getFontProps(fontSize)
+  const { offset, numHeight, numHeightWithGap } = getFontProps(fontSize);
   return (
     <div style={{ height: numHeight }}>
       <div
@@ -31,7 +31,7 @@ const Roll: FC<{
               }px)`
             : undefined,
           transitionDelay: `${idx * 0.1}s`,
-          transitionDuration: '1s',
+          transitionDuration: "1s",
         }}
         className="flex flex-col"
       >
@@ -48,24 +48,24 @@ const Roll: FC<{
             >
               {i}
             </p>
-          )),
+          ))
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const NumberRoll: FC<
   {
-    children: string
-    fontSize?: number
+    children: string;
+    fontSize?: number;
   } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 > = ({ children, fontSize = 37, ...props }) => {
-  const { offset, numGap, numHeight } = getFontProps(fontSize)
+  const { offset, numGap, numHeight } = getFontProps(fontSize);
 
-  const characters = children.split('')
-  const ref = useRef(null)
-  const hasBeenOnScreen = useHasBeenOnScreen(ref)
+  const characters = children.split("");
+  const ref = useRef(null);
+  const hasBeenOnScreen = useHasBeenOnScreen(ref);
   return (
     <div
       {...(props as any)}
@@ -74,8 +74,8 @@ export const NumberRoll: FC<
       className="flex overflow-y-hidden"
     >
       {characters.map((char, idx) => {
-        const num = parseInt(char, 10)
-        return char === ' ' ? (
+        const num = parseInt(char, 10);
+        return char === " " ? (
           <div style={{ width: 10 }} />
         ) : Number.isNaN(num) ? (
           <p
@@ -96,8 +96,8 @@ export const NumberRoll: FC<
             fontSize={fontSize}
             hasBeenOnScreen={hasBeenOnScreen}
           />
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
