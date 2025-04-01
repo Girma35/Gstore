@@ -1,3 +1,17 @@
+import {ProductHero  } from "../components/hero/productHero";
+import Navbar from "../components/navbar/navbar";
+import Footer from "../components/footer/footer";
+
+
+
+
 export default function Home() {
-  return <h1>HOME</h1>;
+  return (
+    <>
+    <Navbar />
+     <ProductHero />
+    <Footer />
+    </>
+  );
 }
+

@@ -1,0 +1,147 @@
+/* components/ui/Hero/Hero.module.css */
+.heroMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FAF4F4;
+    padding: 0 10rem;
+    min-height: 40vh;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .heroMain.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .sectionLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+  }
+  
+  .heroTitle {
+    font-size: 70px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .heroSubtitle {
+    position: relative;
+    padding-left: 50px;
+    color: #c22928;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .heroSubtitle::before {
+    content: "";
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: #c32929;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .heroCta {
+    align-self: flex-start;
+    padding: 12px 24px;
+    background-color: #c22928;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .heroCta:hover {
+    background-color: #a02020;
+    transform: translateY(-2px);
+  }
+  
+  .sectionRight {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    padding: 2rem 0;
+  }
+  
+  .heroImageWrapper {
+    width: 100%;
+    height: 700px;
+    position: relative;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .heroMain {
+      padding: 0 5rem;
+    }
+    
+    .heroTitle {
+      font-size: 60px;
+    }
+    
+    .heroImageWrapper {
+      height: 600px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .heroMain {
+      padding: 2rem;
+      flex-direction: column;
+    }
+  
+    .heroMain.reverse {
+      flex-direction: column-reverse;
+    }
+  
+    .sectionLeft, .sectionRight {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .heroSubtitle::before {
+      display: none;
+    }
+    
+    .heroSubtitle {
+      padding-left: 0;
+    }
+  
+    .heroTitle {
+      font-size: 50px;
+    }
+  
+    .heroCta {
+      align-self: center;
+    }
+  
+    .heroImageWrapper {
+      height: 400px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .heroMain {
+      padding: 1.5rem;
+    }
+  
+    .heroTitle {
+      font-size: 36px;
+    }
+  
+    .heroImageWrapper {
+      height: 300px;
+    }
+  }
