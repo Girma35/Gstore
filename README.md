@@ -4,8 +4,6 @@
 
 A full-stack web application built with the MERN stack (MongoDB, Express, React, Node.js).
 
-![Project Screenshot](/client/public/screenshot.png) <!-- Add your screenshot path -->
-
 ## Features
 - User authentication (JWT)
 - CRUD operations
