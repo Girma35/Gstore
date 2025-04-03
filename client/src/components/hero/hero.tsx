@@ -2,9 +2,11 @@
 import { cn } from "../../utils/cn";
 import React, { ReactNode } from 'react';
 import styles from './hero.module.css';
-import {product} from './productData';
+import {product,staff} from './productData';
 import { Card1, Card2, Card3, Card4 } from "../../assets/images/index";
+import { Computer1,Computer2,Computer3 } from "../../assets/images/index";
 import ProductCard from "../common/productCard"; 
+import StaffCard from "../common/staffCard"; 
 
 
 interface HeroProps {
@@ -32,10 +34,11 @@ export const Hero = ({
 }: HeroProps) => {
   return (
     <section className={cn(
-      styles.heroContainer,
+      styles.hero_Container,
       className,
       variant === 'reverse' && styles.containerReverse
     )}>
+
       <div className={styles.contentSection}>
         {title && <h1 className={styles.title}>{title}</h1>}
         {subtitle && (
@@ -56,10 +59,14 @@ export const Hero = ({
         )}
       </div>
       
+
+      {/* Image Section */}
+      <div className={styles.hero_image}>
       <div className={styles.imageSection}>
         <div className={styles.imageWrapper}>
           {image}
           <div className={styles.imageOverlay} aria-hidden="true" />
+        </div>
         </div>
       </div>
     </section>
@@ -188,6 +195,122 @@ export const Hero3 =() => {
           size={product[3].size}
         />
 </div>
+
+      <div className={styles.ctaButton}>
+        <button 
+          className={styles.ctaButton}
+          aria-label="Shop Now"
+        >
+          Shop Now
+          <span className={styles.ctaIcon} aria-hidden="true">→</span>
+        </button>
+      </div>
+</div>
+
+  );
+} 
+
+
+export const Hero4 = ({
+  title,
+  subtitle,
+  ctaText = 'Shop Now',
+  onCtaClick,
+  image,
+  variant = 'default',
+  className = ''
+}: HeroProps) => {
+  return (
+    <section className={cn(
+      styles.heroContainer,
+      className,
+      variant === 'reverse' && styles.containerReverse
+    )}>
+
+<div className={styles.imageSection}>
+        <div className={styles.imageWrapper}>
+          {image}
+          <div className={styles.imageOverlay} aria-hidden="true" />
+        </div>
+      </div>
+
+
+      <div className={styles.contentSection}>
+        {title && <h1 className={styles.title}>{title}</h1>}
+        {subtitle && (
+          <p className={styles.subtitle}>
+            <span className={styles.subtitleLine} aria-hidden="true" />
+            {subtitle}
+          </p>
+        )}
+        {ctaText && (
+          <button 
+            onClick={onCtaClick} 
+            className={styles.ctaButton}
+            aria-label={ctaText}
+          >
+            {ctaText}
+            <span className={styles.ctaIcon} aria-hidden="true">→</span>
+          </button>
+        )}
+      </div>
+      
+      
+      
+    </section>
+  );
+}
+
+
+export const Hero5 =() => {
+
+  return (
+    <div className={styles.hero3}>
+      <div>
+        <h1 className={styles.title}>
+        Our Blogs
+        </h1>
+        <p className={styles.subtitle}>
+        Find a bright ideal to suit your taste with our great selection
+        </p>
+      
+        </div>
+  
+        <div className={styles.card_container} >
+
+        <StaffCard
+    image={<Computer1 />}
+    key={staff[0].id} 
+    buttonText={staff[0].buttonText}
+    name={staff[0].name}
+  />
+
+<StaffCard
+    image={<Computer2 />}
+    key={staff[0].id} 
+    buttonText={staff[0].buttonText}
+    name={staff[0].name}
+  />
+
+
+<StaffCard
+    image={<Computer3 />}
+    key={staff[0].id} 
+    buttonText={staff[0].buttonText}
+    name={staff[0].name}
+  />
+ </div>
+
+      <div className={styles.ctaButton}>
+        <button 
+          className={styles.ctaButton}
+          aria-label="Shop Now"
+        >
+          Shop Now
+          <span className={styles.ctaIcon} aria-hidden="true">→</span>
+        </button>
+     
+      </div>
 </div>
 
   );

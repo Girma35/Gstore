@@ -15,6 +15,13 @@ interface Product {
     size: string;
 }
 
+
+interface Staff {
+    id: number;
+    name: string;
+    buttonText: string;
+}
+
 export const product: Product[] = [
     {
         id: 1,
@@ -63,4 +70,15 @@ export const product: Product[] = [
         },
         size: "Adjustable Height"
     }
+];
+
+
+export const staff: Staff[] = [
+    {
+        id: 1,
+        name: "Going all-in with millennial design",
+        buttonText : ""
+        
+    },
+   
 ];

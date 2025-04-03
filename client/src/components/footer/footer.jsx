@@ -6,6 +6,7 @@ import style from "./footer.module.css";
 import Map from "./map";
 
 
+
 const Footer = () => {
 
   

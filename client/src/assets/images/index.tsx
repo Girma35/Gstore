@@ -8,6 +8,10 @@ import card1 from "./card1.png";
 import card2 from "./card2.png";
 import card3 from "./card3.png";
 import card4 from "./card4.png";
+import asgaard from "./Asgaard sofa 1.png";
+import computer1 from "./computer1.png";
+import computer2 from "./computer2.png";
+import computer3 from "./computer3.png";
 
 type ImageComponentProps = Omit<ImageProps, "src" | "alt">;
 
@@ -37,3 +41,8 @@ export const Card1= createImage(card1, "card img ");
 export const Card2= createImage(card2, "card img ");
 export const Card3= createImage(card3, "card img ");
 export const Card4= createImage(card4, "card img ");
+export const Asgaard= createImage(asgaard , "hero image ");
+export const Computer1= createImage(computer1 , "hero image ");
+export const Computer2= createImage(computer2 , "hero image ");
+export const Computer3= createImage(computer3 , "hero image ");
+

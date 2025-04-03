@@ -1,8 +1,8 @@
 'use client';
 
-import { Seater, Mask, Cloud } from '../../assets/images/index';
+import { Seater, Mask, Cloud,Asgaard } from '../../assets/images/index';
 
-import { Hero, Hero2,Hero3} from './hero';
+import { Hero, Hero2,Hero3,Hero4,Hero5} from './hero';
 import styles from './productHero.module.css';
 
 export const ProductHero = () => {
@@ -26,7 +26,14 @@ export const ProductHero = () => {
 
 <Hero3 />,
      
-
+<Hero4
+        title="New Arrivals"
+        subtitle="Asgaard sofa"
+        image={<Asgaard />}
+        ctaText="Pre-order Now"
+        onCtaClick={() => console.log('CTA clicked')}
+      />
+<Hero5 />,
     </>
   );
 };
