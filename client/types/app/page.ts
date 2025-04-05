@@ -1,8 +1,8 @@
 // File: /home/girma/Desktop/project/jobPost/src/app/page.tsx
-import * as entry from '../../src/app/page.jsx'
+import * as entry from '../../src/app/Home/page.jsx'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../src/app/page.jsx')
+type TEntry = typeof import('../../src/app/Home/page.jsx')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

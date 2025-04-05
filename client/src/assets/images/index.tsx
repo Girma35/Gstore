@@ -12,6 +12,7 @@ import asgaard from "./Asgaard sofa 1.png";
 import computer1 from "./computer1.png";
 import computer2 from "./computer2.png";
 import computer3 from "./computer3.png";
+import bgImg from "./bgImg.png";
 
 type ImageComponentProps = Omit<ImageProps, "src" | "alt">;
 
@@ -45,4 +46,5 @@ export const Asgaard= createImage(asgaard , "hero image ");
 export const Computer1= createImage(computer1 , "hero image ");
 export const Computer2= createImage(computer2 , "hero image ");
 export const Computer3= createImage(computer3 , "hero image ");
+export const BgImg = createImage(bgImg, "BG image ");
 

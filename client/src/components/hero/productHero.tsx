@@ -3,7 +3,6 @@
 import { Seater, Mask, Cloud,Asgaard } from '../../assets/images/index';
 
 import { Hero, Hero2,Hero3,Hero4,Hero5} from './hero';
-import styles from './productHero.module.css';
 
 export const ProductHero = () => {
   return (

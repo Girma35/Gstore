@@ -1,4 +1,6 @@
 'use client';
+
+import { useRouter } from 'next/navigation';
 import { cn } from "../../utils/cn";
 import React, { ReactNode } from 'react';
 import styles from './hero.module.css';
@@ -22,6 +24,34 @@ interface HeroProps {
 interface Hero2Props extends HeroProps {
   image2: ReactNode;
 }
+
+const CTAButton = ({ 
+  text, 
+  onClick 
+}: { 
+  text: string; 
+  onClick?: () => void 
+}) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    console.log("Button clicked!");
+    if (onClick) onClick();
+    router.push("/shop"); // Next.js navigation
+  };
+
+  return (
+    <button 
+      onClick={handleClick} 
+      className={styles.ctaButton}
+      aria-label={text}
+    >
+      {text}
+      <span className={styles.ctaIcon} aria-hidden="true">→</span>
+    </button>
+  );
+};
+
 
 export const Hero = ({
   title,
@@ -47,16 +77,7 @@ export const Hero = ({
             {subtitle}
           </p>
         )}
-        {ctaText && (
-          <button 
-            onClick={onCtaClick} 
-            className={styles.ctaButton}
-            aria-label={ctaText}
-          >
-            {ctaText}
-            <span className={styles.ctaIcon} aria-hidden="true">→</span>
-          </button>
-        )}
+         <CTAButton text={ctaText} />
       </div>
       
 
@@ -103,14 +124,7 @@ export const Hero2 = ({
               {subtitle}
             </p>
           )}
-          <button 
-            onClick={onCtaClick} 
-            className={styles.ctaButton}
-            aria-label={ctaText}
-          >
-            {ctaText}
-            <span className={styles.ctaIcon} aria-hidden="true">→</span>
-          </button>
+           <CTAButton text={ctaText} />
         </div>
       </div>
 
@@ -197,13 +211,7 @@ export const Hero3 =() => {
 </div>
 
       <div className={styles.ctaButton}>
-        <button 
-          className={styles.ctaButton}
-          aria-label="Shop Now"
-        >
-          Shop Now
-          <span className={styles.ctaIcon} aria-hidden="true">→</span>
-        </button>
+      <CTAButton text="View More" />
       </div>
 </div>
 
