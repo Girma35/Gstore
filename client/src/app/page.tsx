@@ -6,6 +6,8 @@ import store from "../redux/store";
 import { usePathname } from "next/navigation";
 import Home from "./Home/page";      
 import Shop from "./shop/page";
+import Cart from "./cart/page";
+import Checkout from "./checkout/page";
 
 export default function App({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -14,6 +16,9 @@ export default function App({ children }: { children: ReactNode }) {
     <Provider store={store}>
       {pathname === "/" && <Home />}
       {pathname === "/shop" && <Shop />}
+      {pathname === "/cart" && <Cart />}
+      {pathname === "/auth" && <Cart />}
+      {pathname === "/checkout" && <Checkout />}
       {children}
     </Provider>
   );
