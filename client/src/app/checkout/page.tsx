@@ -2,6 +2,9 @@
 
 import React from 'react';
 import BillingDetails from '../../components/common/BilingDetial';
+import PlaceOrder from '../../components/common/placeOrder';
+import PageHeader from "../../components/common/pageHeader";
+import PageFooter from "../../components/common/pageFooter";
 
 interface BillingDetailsType {
   firstName: string;
@@ -23,9 +26,15 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="checkout-page">
+    <>
+    <PageHeader title='checkout' />
+      <div className="checkout-page  flex flex-row items-center justify-center">
       <BillingDetails onComplete={handleBillingComplete} />
+    
     </div>
+     <PageFooter />
+    </>
+  
   );
 };
 

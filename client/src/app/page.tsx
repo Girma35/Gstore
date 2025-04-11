@@ -18,7 +18,7 @@ export default function App({ children }: { children: ReactNode }) {
       {pathname === "/shop" && <Shop />}
       {pathname === "/cart" && <Cart />}
       {pathname === "/auth" && <Cart />}
-      {pathname === "/checkout" && <Checkout />}
+      {pathname === "/checkout" && <Checkout />} 
       {children}
     </Provider>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from ('../common/';
+import styles from './BilingDetail.module.css';
 
 interface BillingDetails {
   firstName: string;
@@ -81,96 +81,97 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="checkout-billing-details">
-      <h2>Billing Details</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="firstName">First Name*</label>
+    <div className={styles.checkoutContainer}>
+      <h2 className={styles.sectionTitle}>Billing Details</h2>
+      <form onSubmit={handleSubmit} className={styles.billingForm}>
+        <div className={styles.formRow}>
+          <div className={`${styles.formGroup} ${errors.firstName ? styles.errorField : ''}`}>
+            <label htmlFor="firstName" className={styles.inputLabel}>First Name*</label>
             <input
               type="text"
               id="firstName"
               name="firstName"
               value={billingDetails.firstName}
               onChange={handleChange}
-              className={errors.firstName ? 'error' : ''}
+              className={styles.formInput}
             />
-            {errors.firstName && <span className="error-message">{errors.firstName}</span>}
+            {errors.firstName && <span className={styles.errorMessage}>{errors.firstName}</span>}
           </div>
           
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name*</label>
+          <div className={`${styles.formGroup} ${errors.lastName ? styles.errorField : ''}`}>
+            <label htmlFor="lastName" className={styles.inputLabel}>Last Name*</label>
             <input
               type="text"
               id="lastName"
               name="lastName"
               value={billingDetails.lastName}
               onChange={handleChange}
-              className={errors.lastName ? 'error' : ''}
+              className={styles.formInput}
             />
-            {errors.lastName && <span className="error-message">{errors.lastName}</span>}
+            {errors.lastName && <span className={styles.errorMessage}>{errors.lastName}</span>}
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email">Email Address*</label>
+        <div className={`${styles.formGroup} ${errors.email ? styles.errorField : ''}`}>
+          <label htmlFor="email" className={styles.inputLabel}>Email Address*</label>
           <input
             type="email"
             id="email"
             name="email"
             value={billingDetails.email}
             onChange={handleChange}
-            className={errors.email ? 'error' : ''}
+            className={styles.formInput}
           />
-          {errors.email && <span className="error-message">{errors.email}</span>}
+          {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
         </div>
 
-        <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="phone" className={styles.inputLabel}>Phone Number</label>
           <input
             type="tel"
             id="phone"
             name="phone"
             value={billingDetails.phone}
             onChange={handleChange}
+            className={styles.formInput}
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="address">Street Address*</label>
+        <div className={`${styles.formGroup} ${errors.address ? styles.errorField : ''}`}>
+          <label htmlFor="address" className={styles.inputLabel}>Street Address*</label>
           <input
             type="text"
             id="address"
             name="address"
             value={billingDetails.address}
             onChange={handleChange}
-            className={errors.address ? 'error' : ''}
+            className={styles.formInput}
           />
-          {errors.address && <span className="error-message">{errors.address}</span>}
+          {errors.address && <span className={styles.errorMessage}>{errors.address}</span>}
         </div>
 
-        <div className="form-group">
-          <label htmlFor="city">Town/City*</label>
+        <div className={`${styles.formGroup} ${errors.city ? styles.errorField : ''}`}>
+          <label htmlFor="city" className={styles.inputLabel}>Town/City*</label>
           <input
             type="text"
             id="city"
             name="city"
             value={billingDetails.city}
             onChange={handleChange}
-            className={errors.city ? 'error' : ''}
+            className={styles.formInput}
           />
-          {errors.city && <span className="error-message">{errors.city}</span>}
+          {errors.city && <span className={styles.errorMessage}>{errors.city}</span>}
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="country">Country*</label>
+        <div className={styles.formRow}>
+          <div className={`${styles.formGroup} ${errors.country ? styles.errorField : ''}`}>
+            <label htmlFor="country" className={styles.inputLabel}>Country*</label>
             <select
               id="country"
               name="country"
               value={billingDetails.country}
               onChange={handleChange}
-              className={errors.country ? 'error' : ''}
+              className={styles.formSelect}
             >
               <option value="">Select Country</option>
               <option value="US">United States</option>
@@ -178,46 +179,50 @@ const BillingDetails: React.FC<BillingDetailsProps> = ({ onComplete }) => {
               <option value="CA">Canada</option>
               <option value="AU">Australia</option>
             </select>
-            {errors.country && <span className="error-message">{errors.country}</span>}
+            {errors.country && <span className={styles.errorMessage}>{errors.country}</span>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="state">State</label>
+          <div className={styles.formGroup}>
+            <label htmlFor="state" className={styles.inputLabel}>State</label>
             <input
               type="text"
               id="state"
               name="state"
               value={billingDetails.state}
               onChange={handleChange}
+              className={styles.formInput}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="zipCode">Zip/Postal Code*</label>
+          <div className={`${styles.formGroup} ${errors.zipCode ? styles.errorField : ''}`}>
+            <label htmlFor="zipCode" className={styles.inputLabel}>Zip/Postal Code*</label>
             <input
               type="text"
               id="zipCode"
               name="zipCode"
               value={billingDetails.zipCode}
               onChange={handleChange}
-              className={errors.zipCode ? 'error' : ''}
+              className={styles.formInput}
             />
-            {errors.zipCode && <span className="error-message">{errors.zipCode}</span>}
+            {errors.zipCode && <span className={styles.errorMessage}>{errors.zipCode}</span>}
           </div>
         </div>
 
-        <div className="form-group checkbox">
+        <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
             id="saveInfo"
             name="saveInfo"
             checked={billingDetails.saveInfo}
             onChange={handleChange}
+            className={styles.checkboxInput}
           />
-          <label htmlFor="saveInfo">Save this information for next time</label>
+          <label htmlFor="saveInfo" className={styles.checkboxLabel}>
+            Save this information for next time
+          </label>
         </div>
 
-        <button type="submit" className="continue-button">
+        <button type="submit" className={styles.submitButton}>
           Continue to Shipping
         </button>
       </form>

@@ -13,6 +13,7 @@ import computer1 from "./computer1.png";
 import computer2 from "./computer2.png";
 import computer3 from "./computer3.png";
 import bgImg from "./bgImg.png";
+import support from "./Support.jpg";
 
 type ImageComponentProps = Omit<ImageProps, "src" | "alt">;
 
@@ -47,4 +48,5 @@ export const Computer1= createImage(computer1 , "hero image ");
 export const Computer2= createImage(computer2 , "hero image ");
 export const Computer3= createImage(computer3 , "hero image ");
 export const BgImg = createImage(bgImg, "BG image ");
+export const Support = createImage(support, "BG image ");
 

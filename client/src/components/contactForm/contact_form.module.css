@@ -1,0 +1,151 @@
+/* Main container styles */
+.form_section {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8ecec;
+  }
+  
+  /* Form container styles */
+  .form_container {
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  /* Contact method buttons */
+  .contact_form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .top_btn {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  /* Form styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form_control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form_control label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  .form_control input,
+  .form_control textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+  }
+  
+  .form_control input:focus,
+  .form_control textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .form_control textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  /* Submit button container */
+  .submit {
+    margin-top: 1rem;
+  }
+  
+  /* Form result display */
+  .form_result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .form_result p {
+    margin: 0.25rem 0;
+  }
+  
+  /* Contact image styles */
+  .contact_image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+  }
+  
+  .contact_image svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+
+  .ctaButton {
+    padding: 1rem 2.5rem;
+    background: #c22928;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .ctaButton:hover {
+    background: #a02020;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  .ctaIcon {
+    transition: transform 0.3s ease;
+  }
+  
+  .ctaButton:hover .ctaIcon {
+    transform: translateX(4px);
+  }
+  
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .form_section {
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+  
+    .top_btn {
+      flex-direction: column;
+    }
+  
+    .contact_image {
+      padding: 1.5rem;
+    }
+  }

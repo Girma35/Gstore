@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../redux/store";
 import styles from "./cart.module.css";
-import { Card1 } from "../../assets/images/index";
 
 // Define the Product type
 interface Product {
