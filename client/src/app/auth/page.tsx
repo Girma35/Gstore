@@ -34,7 +34,7 @@ const Auth = () => {
   
   const router = useRouter();
   const [state, setState] = useState<AuthRequest>(initialState);
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://gstore-1qqx.onrender.com';
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
