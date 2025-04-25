@@ -1,0 +1,269 @@
+
+
+/* ======================
+   Layout Containers
+====================== */
+.container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background-color: var(--background-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+/* ======================
+   Empty Cart State
+====================== */
+.emptyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  padding: 24px;
+}
+
+.emptyContent {
+  text-align: center;
+  max-width: 480px;
+  padding: 40px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.emptyTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  color: var(--text-medium);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.addToCart {
+  padding: 0.75rem 2rem;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  max-width: 200px;
+}
+
+.addToCart:hover {
+  background-color: #1f2937;
+  transform: translateY(-1px);
+}
+
+.addToCart:active {
+  transform: translateY(0);
+}
+
+/* ======================
+   Cart Items Section
+====================== */
+.leftSection {
+  flex: 2;
+  padding: 24px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.headerItem {
+  padding: 8px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 100px 2fr 1fr 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.itemImage {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.itemTitle {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.itemPrice {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* ======================
+   Quantity Controls
+====================== */
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantityButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-light);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantityButton:hover {
+  background-color: var(--background-hover);
+}
+
+.quantityDisplay {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ======================
+   Summary Card
+====================== */
+.summaryCard {
+  flex: 1;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  align-self: flex-start;
+}
+
+.summaryHeader {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.summaryHeader h5 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.summaryList {
+  padding: 20px;
+}
+
+.listGroup {
+  margin-bottom: 20px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  color: var(--text-medium);
+}
+
+.listItem:not(:last-child) {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.totalAmount {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.checkoutButton a {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.checkoutButton a:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ======================
+   Responsive Design
+====================== */
+@media (max-width: 768px) {
+  .header,
+  .item {
+    grid-template-columns: 80px 1fr 1fr;
+  }
+
+  .itemTitle {
+    grid-column: 2 / span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header,
+  .item {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .itemTitle {
+    grid-column: 2;
+  }
+
+  .emptyTitle {
+    font-size: 1.5rem;
+  }
+
+  .emptyContent {
+    padding: 24px 16px;
+  }
+}

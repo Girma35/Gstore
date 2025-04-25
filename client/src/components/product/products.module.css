@@ -1,0 +1,237 @@
+.container {
+    padding: 2rem;
+  }
+  
+  .heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .filterButtons {
+    text-align: center;
+    margin: 2rem 0;
+  }
+  
+  .filterBtn {
+    margin: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid #000;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  .filterBtn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .productsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .card {
+    width: 320px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .productImage {
+    object-fit: contain;
+    margin: auto;
+    padding: 1rem;
+  }
+  
+  .cardBody {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .productTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .productDesc {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .productPrice {
+    font-size: 1.75rem;
+    color: #16a34a;
+    font-weight: bold;
+  }
+  
+  /* Hide button group by default */
+  .buttonGroup {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(20px);
+  }
+  
+  /* Show buttons on hover */
+  .card:hover .buttonGroup {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  
+  .ctaButton {
+    padding: 0.5rem 1.25rem;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .ctaIcon {
+    margin-left: 8px;
+  }
+  
+  .skeletonContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .skeletonItem {
+    width: 300px;
+  }
+  
+@media (max-width: 1200px) {
+    .productsGrid {
+      gap: 1.5rem;
+    }
+  
+    .card {
+      width: 280px;
+    }
+  
+    .productTitle {
+      font-size: 1.125rem;
+    }
+  
+    .productPrice {
+      font-size: 1.125rem;
+    }
+  
+    .productDesc {
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* 1024px and below */
+  @media (max-width: 1024px) {
+    .card {
+      width: 260px;
+    }
+  
+    .productTitle {
+      font-size: 1rem;
+    }
+  
+    .productPrice {
+      font-size: 1rem;
+    }
+  
+    .productDesc {
+      font-size: 0.8rem;
+    }
+  
+    .ctaButton {
+      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+    }
+  }
+  
+  /* 768px and below */
+  @media (max-width: 768px) {
+    .productsGrid {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card {
+      width: 90%;
+    }
+  
+    .productTitle {
+      font-size: 1.125rem;
+    }
+  
+    .productPrice {
+      font-size: 1rem;
+    }
+  
+    .productDesc {
+      font-size: 0.875rem;
+    }
+  }
+  
+  /* 480px and below */
+  @media (max-width: 480px) {
+    .card {
+      width: 100%;
+    }
+  
+    .productTitle {
+      font-size: 1rem;
+    }
+  
+    .productPrice {
+      font-size: 0.875rem;
+    }
+  
+    .productDesc {
+      font-size: 0.75rem;
+    }
+  
+    .ctaButton {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.75rem;
+    }
+  
+    .heading {
+      font-size: 1.5rem;
+    }
+  }
+  
