@@ -1,5 +1,5 @@
-// next.config.js
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     domains: ['fakestoreapi.com'],
   },

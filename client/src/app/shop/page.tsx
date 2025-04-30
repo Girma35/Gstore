@@ -1,7 +1,7 @@
 import React from 'react';
-import PageHeader from "../../components/common/pageHeader";
-import PageFooter from "../../components/common/pageFooter";
-import Product from "../../components/product/products";
+import PageHeader from "@/components/common/pageHeader";
+import PageFooter from "@/components/common/pageFooter";
+import Product from "@/components/product/products";
 
 
 

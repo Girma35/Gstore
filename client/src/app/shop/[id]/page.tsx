@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./ProductDetail.module.css";
+import {useCartActions} from "@/contexts/cartContext";
 
 interface Product {
   id: number;
@@ -22,27 +23,13 @@ interface Product {
 }
 
 const ProductDetail: React.FC = () => {
+  const { handleAddItem} = useCartActions();
+
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleAddToCart = (item: Product) => {
-    type CartItem = Product & { quantity: number };
-    const existingCart = localStorage.getItem("cart");
-    const cart: CartItem[] = existingCart ? JSON.parse(existingCart) : [];
-    const found = cart.find((p) => p.id === item.id);
 
-    if (!found) {
-      const newItem: CartItem = { ...item, quantity: 1 };
-      cart.push(newItem);
-      localStorage.setItem("cart", JSON.stringify(cart));
-    } else {
-      const updatedCart = cart.map((p) =>
-        p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
-      );
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    }
-  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -82,7 +69,7 @@ const ProductDetail: React.FC = () => {
             <Link href="/cart">
               
                 <button
-                  onClick={() => handleAddToCart(product)}
+                   onClick={() => handleAddItem(product)}
                   className={styles.addToCart}
                 >
                   Add to Cart

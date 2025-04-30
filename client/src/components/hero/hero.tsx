@@ -1,16 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { cn } from "../../utils/cn";
+import { cn } from '../../utils/cn';
 import React, { ReactNode } from 'react';
-import styles from './hero.module.css';
-import {product,staff} from './productData';
-import { Card1, Card2, Card3, Card4 } from "../../assets/images/index";
-import { Computer1,Computer2,Computer3 } from "../../assets/images/index";
-import ProductCard from "../common/productCard"; 
-import StaffCard from "../common/staffCard"; 
-import Link from "next/link";
-
+import { product } from './productData';
+import { Card1, Card2, Card3, Card4 } from '../../assets/images';
+import ProductCard from '../common/productCard'; 
+import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface HeroProps {
   title?: string;
@@ -26,6 +23,16 @@ interface Hero2Props extends HeroProps {
   image2: ReactNode;
 }
 
+interface Hero3Props {
+  title?: string;
+  subtitle?: string;
+  className?: string;
+}
+
+interface Hero4Props extends HeroProps {}
+
+interface Hero5Props extends Hero3Props {}
+
 const CTAButton = ({ 
   text, 
   onClick 
@@ -36,23 +43,23 @@ const CTAButton = ({
   const router = useRouter();
 
   const handleClick = () => {
-    console.log("Button clicked!");
-    if (onClick) onClick();
-    router.push("/shop"); // Next.js navigation
+    onClick?.();
+    router.push('/shop');
   };
 
   return (
-    <button 
-      onClick={handleClick} 
-      className={styles.ctaButton}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={handleClick}
+      className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-400 transition"
       aria-label={text}
     >
       {text}
-      <span className={styles.ctaIcon} aria-hidden="true">→</span>
-    </button>
+      <span className="ml-2">→</span>
+    </motion.button>
   );
 };
-
 
 export const Hero = ({
   title,
@@ -61,36 +68,35 @@ export const Hero = ({
   onCtaClick,
   image,
   variant = 'default',
-  className = ''
+  className = '',
 }: HeroProps) => {
   return (
-    <section className={cn(
-      styles.hero_Container,
-      className,
-      variant === 'reverse' && styles.containerReverse
-    )}>
+    <section 
+      className={cn(
+        'py-16 px-4 flex items-center justify-between',
+        className, 
+        variant === 'reverse' ? 'flex-row-reverse' : 'flex-row'
+      )}
+    >
+      <motion.div 
+        initial={{ opacity: 0, x: variant === 'reverse' ? 50 : -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center lg:text-left max-w-lg"
+      >
+        {title && <h1 className="text-4xl font-bold mb-4">{title}</h1>}
+        {subtitle && <p className="text-xl text-gray-600 mb-6">{subtitle}</p>}
+        <CTAButton text={ctaText} onClick={onCtaClick} />
+      </motion.div>
 
-      <div className={styles.contentSection}>
-        {title && <h1 className={styles.title}>{title}</h1>}
-        {subtitle && (
-          <p className={styles.subtitle}>
-            <span className={styles.subtitleLine} aria-hidden="true" />
-            {subtitle}
-          </p>
-        )}
-         <CTAButton text={ctaText} />
-      </div>
-      
-
-      {/* Image Section */}
-      <div className={styles.hero_image}>
-      <div className={styles.imageSection}>
-        <div className={styles.imageWrapper}>
-          {image}
-          <div className={styles.imageOverlay} aria-hidden="true" />
-        </div>
-        </div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-xs mx-auto lg:max-w-md"
+      >
+        <div>{image}</div>
+      </motion.div>
     </section>
   );
 };
@@ -101,128 +107,70 @@ export const Hero2 = ({
   onCtaClick,
   image,
   image2,
-  variant = 'default',
-  className = ''
+  className = '',
 }: Hero2Props) => {
   return (
-    <section className={cn(
-      styles.heroContainer,
-      styles.dualColumn,
-      className,
-      variant === 'reverse' && styles.containerReverse
-    )}>
-      {/* Left Column */}
-      <div className={styles.column}>
-        <div className={styles.imageWrapper}>
-          {image}
-          <div className={styles.imageOverlay} aria-hidden="true" />
-        </div>
-        
-        <div className={styles.contentBlock}>
-          {subtitle && (
-            <p className={styles.subtitle}>
-              <span className={styles.subtitleLine} aria-hidden="true" />
-              {subtitle}
-            </p>
-          )}
-           <CTAButton text={ctaText} />
-        </div>
-      </div>
-
-      {/* Right Column */}
-      <div className={styles.column}>
-        <div className={styles.imageWrapper}>
-          {image2}
-          <div className={styles.imageOverlay} aria-hidden="true" />
-        </div>
-        
-        <div className={styles.contentBlock}>
-          {subtitle && (
-            <p className={styles.subtitle}>
-              <span className={styles.subtitleLine} aria-hidden="true" />
-              {subtitle}
-            </p>
-          )}
-          <Link href="./shop">
-           <button 
-            onClick={onCtaClick} 
-            className={styles.ctaButton}
-            aria-label={ctaText}
-          >
-            {ctaText}
-            <span className={styles.ctaIcon} aria-hidden="true">→</span>
-          </button>
-          
-          </Link>
-         
-        </div>
-      </div>
+    <section className={cn('grid grid-cols-1 md:grid-cols-2 gap-8', className)}>
+      {[image, image2].map((img, index) => (
+        <motion.div 
+          key={`hero2-item-${index}`}
+          whileHover={{ y: -5 }}
+          className="relative group"
+        >
+          <div className="overflow-hidden">{img}</div>
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition">
+            {subtitle && <p className="text-2xl font-semibold">{subtitle}</p>}
+            <CTAButton text={ctaText} onClick={onCtaClick} />
+          </div>
+        </motion.div>
+      ))}
     </section>
   );
 };
 
-export const Hero3 =() => {
-
+export const Hero3 = ({
+  title = 'Top Picks For You',
+  subtitle = 'Find a bright ideal to suit your taste with our great selection',
+  className = '',
+}: Hero3Props) => {
   return (
-    <div className={styles.hero3}>
-      <div>
-        <h1 className={styles.title}>
-          Top Picks For You
-        </h1>
-        <p className={styles.subtitle}>
-          Find a bright ideal to suit your taste with our great selection of suspension, floor and table lights.
-        </p>
-      
-        </div>
-  
-
-  <div className={styles.card_container} >
-        <ProductCard
-          image={<Card1 priority />}
-          key={product[0].id}
-          type={product[0].type}
-          name={product[0].name}
-          price={product[0].price}
-          color={product[0].color}
-          size={product[0].size}
-        />
-        <ProductCard
-          image={<Card2 priority />}
-          key={product[1].id}
-          type={product[1].type}
-          name={product[1].name}
-          price={product[1].price}
-          color={product[1].color}
-          size={product[1].size}
-        />
-        <ProductCard
-          image={<Card3 priority />}
-          key={product[2].id}
-          type={product[2].type}
-          name={product[2].name}
-          price={product[2].price}
-          color={product[2].color}
-          size={product[2].size}
-        />
-        <ProductCard
-          image={<Card4 priority />}
-          key={product[3].id}
-          type={product[3].type}
-          name={product[3].name}
-          price={product[3].price}
-          color={product[3].color}
-          size={product[3].size}
-        />
-</div>
-
-      <div className={styles.ctaButton}>
-      <CTAButton text="View More" />
+    <section className={cn('py-16 px-4', className)}>
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <p className="text-xl text-gray-600">{subtitle}</p>
       </div>
-</div>
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {product.slice(0, 4).map((item) => (
+          <motion.div
+            key={`product-${item.id}`}
+            whileHover={{ y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ProductCard
+              image={
+                item.id === 1 ? <Card1 priority /> : 
+                item.id === 2 ? <Card2 priority /> : 
+                item.id === 3 ? <Card3 priority /> : 
+                <Card4 priority />
+              }
+              type={item.type}
+              name={item.name}
+              price={item.price}
+              color={item.color}
+              size={item.size}
+            />
+          </motion.div>
+        ))}
+      </div>
+      <div className="text-center mt-12">
+        <CTAButton 
+          text="View More" 
+          onClick={() => console.log('View more clicked')} 
+        />
+      </div>
+    </section>
   );
-} 
-
+};
 
 export const Hero4 = ({
   title,
@@ -231,103 +179,40 @@ export const Hero4 = ({
   onCtaClick,
   image,
   variant = 'default',
-  className = ''
-}: HeroProps) => {
+  className = '',
+}: Hero4Props) => {
   return (
-    <section className={cn(
-      styles.heroContainer,
-      className,
-      variant === 'reverse' && styles.containerReverse
-    )}>
-
-<div className={styles.imageSection}>
-        <div className={styles.imageWrapper}>
-          {image}
-          <div className={styles.imageOverlay} aria-hidden="true" />
-        </div>
+    <section 
+      className={cn(
+        'py-16 px-4 flex items-center justify-between',
+        className, 
+        variant === 'reverse' ? 'flex-row-reverse' : 'flex-row'
+      )}
+    >
+      <div className="max-w-lg text-center lg:text-left">
+        <span className="text-lg font-semibold text-blue-500">NEW COLLECTION</span>
+        {title && <h2 className="text-3xl font-bold mt-2">{title}</h2>}
+        {subtitle && <p className="text-xl text-gray-600 mt-4">{subtitle}</p>}
+        <CTAButton text={ctaText} onClick={onCtaClick} />
       </div>
-
-
-      <div className={styles.contentSection}>
-        {title && <h1 className={styles.title}>{title}</h1>}
-        {subtitle && (
-          <p className={styles.subtitle}>
-            <span className={styles.subtitleLine} aria-hidden="true" />
-            {subtitle}
-          </p>
-        )}
-        {ctaText && (
-          <button 
-            onClick={onCtaClick} 
-            className={styles.ctaButton}
-            aria-label={ctaText}
-          >
-            {ctaText}
-            <span className={styles.ctaIcon} aria-hidden="true">→</span>
-          </button>
-        )}
+      <div className="max-w-xs mx-auto lg:max-w-md">
+        <div>{image}</div>
       </div>
-      
-      
-      
     </section>
   );
-}
+};
 
-
-export const Hero5 =() => {
-
+export const Hero5 = ({
+  title = 'Design Inspiration',
+  subtitle = 'Find a bright ideal to suit your taste with our great selection',
+  className = '',
+}: Hero5Props) => {
   return (
-    <div className={styles.hero3}>
+    <section className={cn('py-16 px-4 text-center', className)}>
       <div>
-        <h1 className={styles.title}>
-        Our Blogs
-        </h1>
-        <p className={styles.subtitle}>
-        Find a bright ideal to suit your taste with our great selection
-        </p>
-      
-        </div>
-  
-        <div className={styles.card_container} >
-
-        <StaffCard
-    image={<Computer1 />}
-    key={staff[0].id} 
-    buttonText={staff[0].buttonText}
-    name={staff[0].name}
-  />
-
-<StaffCard
-    image={<Computer2 />}
-    key={staff[0].id} 
-    buttonText={staff[0].buttonText}
-    name={staff[0].name}
-  />
-
-
-<StaffCard
-    image={<Computer3 />}
-    key={staff[0].id} 
-    buttonText={staff[0].buttonText}
-    name={staff[0].name}
-  />
- </div>
-
-      <div className={styles.ctaButton}>
-        <Link href="./shop">
-        <button 
-          className={styles.ctaButton}
-          aria-label="Shop Now"
-        >
-          Shop Now
-          <span className={styles.ctaIcon} aria-hidden="true">→</span>
-        </button>
-        </Link>
-       
-     
+        <h2 className="text-3xl font-bold mb-4">{title}</h2>
+        <p className="text-xl text-gray-600">{subtitle}</p>
       </div>
-</div>
-
+    </section>
   );
-} 
+};

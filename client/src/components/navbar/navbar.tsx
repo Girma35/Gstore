@@ -3,8 +3,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import style from "./nav.module.css";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "../../redux/store";
 import Image from "next/image"; // Import Image from next/image
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -24,28 +22,35 @@ interface Product {
 }
 
 const Header = () => {
-  const state = useSelector((state: RootState) => state.handleCart);
-  const dispatch: AppDispatch = useDispatch();
+
 
   const [cartItems, setCartItems] = useState<Product[]>([]);
 
   useEffect(() => {
-    const existingCart = localStorage.getItem("cart");
-    let cart: Product[] = existingCart ? JSON.parse(existingCart) : [];
-    
-    cart = cart.map((item) => ({
-      ...item,
-      qty: isNaN(item.qty) || item.qty < 1 ? 1 : item.qty,
-      price: isNaN(item.price) ? 1 : item.price,
-      rating: {
-        rate: isNaN(item.rating?.rate) ? 1 : item.rating.rate,
-        count: isNaN(item.rating?.count) ? 1 : item.rating.count,
-      },
-    }));
-    
-    setCartItems(cart);
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'cart') {
+        const cart = e.newValue ? JSON.parse(e.newValue) : [];
+        setCartItems(cart);
+      }
+    };
+  
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
-
+  
+  useEffect(() => {
+    const syncCart = () => {
+      const existingCart = localStorage.getItem("cart");
+      const cart = existingCart ? JSON.parse(existingCart) : [];
+      setCartItems(cart);
+    };
+  
+    syncCart();
+  
+    
+    const interval = setInterval(syncCart, 1000);
+    return () => clearInterval(interval);
+  }, []);
   const EmptyCart = () => (
     <div className="flex items-center justify-center min-h-[200px] p-6 bg-gray-50 rounded-lg">
       <div className="text-center">
@@ -199,10 +204,33 @@ const Header = () => {
                 </div>
               </div>
             ))}
-            <div className={style.total}>total: ${calculateTotal()}/-</div>
-            <Link href="/checkout" className={style.addToCart}>
-              checkout
-            </Link>
+
+            <div className={style.cartActions}>
+  <div className={style.total}>
+    <span className={style.totalLabel}>Total:</span>
+    <span className={style.totalAmount}>${calculateTotal()}</span>
+  </div>
+  
+  <div className={style.actionButtons}>
+    <Link 
+      href="/cart" 
+      className={`${style.cartButton} ${style.secondaryButton}`}
+      aria-label="View cart details"
+    >
+      <i className="fas fa-shopping-cart mr-2"></i>
+      View Cart
+    </Link>
+    
+    <Link 
+      href="/checkout" 
+      className={`${style.cartButton} ${style.primaryButton}`}
+      aria-label="Proceed to checkout"
+    >
+      <i className="fas fa-credit-card mr-2"></i>
+      Checkout
+    </Link>
+  </div>
+</div>
           </>
         )}
       </div>

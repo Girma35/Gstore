@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-import { addCart } from "../../redux/action";
+import { useCartActions } from "@/contexts/cartContext";
 import styles from "./products.module.css";
+import toast, { Toaster } from "react-hot-toast";
+import { MdDescription } from "react-icons/md";
+
 
 interface Product {
   id: number;
@@ -19,16 +20,28 @@ interface Product {
   category: string;
 }
 
-const CTAButton: React.FC<{ text: string; productId?: number; onClick?: () => void }> = ({ text, productId, onClick }) => {
+const CTAButton: React.FC<{ 
+  text: string; 
+  productId?: number; 
+  onClick?: () => void;
+  disabled?: boolean;
+}> = ({ text, productId, onClick, disabled = false }) => {
   const router = useRouter();
 
   const handleClick = () => {
     onClick?.();
-    router.push(productId ? `/shop/${productId}` : "/shop");
+    if (productId) {
+      router.push(`/shop/${productId}`);
+    }
   };
 
   return (
-    <button className={styles.ctaButton} onClick={handleClick} aria-label={text}>
+    <button 
+      className={styles.ctaButton} 
+      onClick={handleClick} 
+      aria-label={text}
+      disabled={disabled}
+    >
       {text}
       <span className={styles.ctaIcon} aria-hidden="true">→</span>
     </button>
@@ -37,37 +50,69 @@ const CTAButton: React.FC<{ text: string; productId?: number; onClick?: () => vo
 
 const Products: React.FC = () => {
   const [data, setData] = useState<Product[]>([]);
-  const [filter, setFilter] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [addingToCart, setAddingToCart] = useState<number | null>(null);
+  const { handleAddItem } = useCartActions();
+
+  const filteredProducts = useMemo(() => {
+    return activeFilter === "All" 
+      ? data 
+      : data.filter(item => item.category === activeFilter);
+  }, [data, activeFilter]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
-      const response = await fetch("https://fakestoreapi.com/products/");
-      const products: Product[] = await response.json();
-      setData(products);
-      setFilter(products);
-      setLoading(false);
+      try {
+        const response = await fetch("https://fakestoreapi.com/products/");
+        const products: Product[] = await response.json();
+        setData(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProducts();
   }, []);
 
-  const filterProduct = (category: string) => {
-    const filtered = data.filter((item) => item.category === category);
-    setFilter(filtered);
-  };
 
-  const handleAddToCart = (product: Product) => {
-    dispatch(addCart(product));
+  // Handle To Cart Button 
+
+  const handleAddToCart = async (product: Product) => {
+    console.log("Add to cart clicked:", product);
+
+    try {
+      const cartItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        description: product.description,
+        category: product.category,
+        qty: 1,
+      };
+  
+      await handleAddItem(cartItem);
+      toast.success(`${product.title} added to cart!`);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast.error("Failed to add item to cart");
+    } finally {
+      setAddingToCart(null);
+    }
   };
+  
 
   const LoadingSkeleton = () => (
-    <div className={styles.skeletonContainer}>
+    <div className={styles.productsGrid}>
       {[...Array(6)].map((_, idx) => (
-        <div className={styles.skeletonItem} key={idx}>
-          <Skeleton height={592} />
+        <div className={styles.card} key={idx}>
+          <Skeleton height={200} />
+          <div className={styles.cardBody}>
+            <Skeleton count={3} />
+          </div>
         </div>
       ))}
     </div>
@@ -78,8 +123,10 @@ const Products: React.FC = () => {
       {["All", "men's clothing", "women's clothing", "jewelery", "electronics"].map((cat) => (
         <button
           key={cat}
-          className={styles.filterBtn}
-          onClick={() => cat === "All" ? setFilter(data) : filterProduct(cat)}
+          className={`${styles.filterBtn} ${
+            activeFilter === cat ? styles.activeFilter : ''
+          }`}
+          onClick={() => setActiveFilter(cat)}
         >
           {cat === "All" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1)}
         </button>
@@ -89,23 +136,49 @@ const Products: React.FC = () => {
 
   const ProductList = () => (
     <div className={styles.productsGrid}>
-      {filter.map((product) => (
-
+      {filteredProducts.map((product, idx) => (
         <div key={product.id} className={styles.card}>
-          <Image src={product.image} alt={product.title} width={300} height={300} className={styles.productImage} />
+          <div className={styles.imageContainer}>
+            <Image 
+              src={product.image}
+              alt={product.title}
+              width={300}
+              height={300}
+              className={styles.productImage}
+              priority={idx < 3}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/placeholder-product.png';
+              }}
+            />
+          </div>
           <div className={styles.cardBody}>
-            <h5 className={styles.productTitle}>{product.title.slice(0, 12)}...</h5>
-            <p className={styles.productDesc}>{product.description.slice(0, 90)}...</p>
+            <h5 className={styles.productTitle}>{product.title}</h5>
+            <p className={styles.productDesc}>
+              {product.description.slice(0, 90)}...
+            </p>
             <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
 
             <div className={styles.buttonGroup}>
-              <CTAButton text="Buy Now" productId={product.id} />
-              <CTAButton text="Add to Cart"  onClick={() => handleAddToCart(product)} />
-            </div>
 
+              {/* Buy Now Button  */}
+
+              <CTAButton text="Buy Now" productId={product.id} />
+              {/* Add To Cart Button  */}
+
+
+              <button 
+                className={styles.ctaButton}
+                onClick={() => {
+                  console.log("Clicked add to cart");
+                  handleAddToCart(product)}}
+              >
+                {addingToCart === product.id ? 'Adding...' : 'Add to Cart'}
+              </button>
+
+
+            </div>
           </div>
         </div>
-        
       ))}
     </div>
   );
@@ -119,5 +192,4 @@ const Products: React.FC = () => {
     </div>
   );
 };
-
 export default Products;

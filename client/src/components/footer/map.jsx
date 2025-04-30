@@ -3,14 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet'; 
 
 const MyMap = () => {
-
-  const customIcon = new L.Icon({
-    iconUrl: '/home/girma/Desktop/project/jobPost/src/assets/icons/AAicon.jpeg',
-    iconSize: [35, 35], 
-    iconAnchor: [17, 35], 
-    popupAnchor: [0, -35], 
-  });
-
   return (
     <MapContainer center={[9.03, 38.74]} zoom={13} style={{ height: "400px", width: "100%" }}>
      
@@ -20,7 +12,7 @@ const MyMap = () => {
       />
       
       {/* Custom Marker */}
-      <Marker position={[9.03, 38.74]} icon={customIcon}>
+      <Marker position={[9.03, 38.74]} >
         {/* Custom Popup Content */}
         <Popup>
           <div style={{ textAlign: 'center' }}>

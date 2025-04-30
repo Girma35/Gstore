@@ -1,25 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
 import styles from "./checkoutPage.module.css";
 import { ShoppingBag, AlertCircle, Loader2, CheckCircle } from "lucide-react";
 import PlaceOrder from "@/components/common/placeOrder";
 import { loadStripe } from '@stripe/stripe-js';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  rating: { rate: number; count: number };
-  qty: number;
-}
+import { useCartState, useCartTotals } from "@/contexts/cartContext";
 
 interface CartItem {
   id: number;
@@ -33,22 +21,18 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 
 const Checkout = () => {
   const router = useRouter();
-  const state = useSelector((state: RootState) => state.handleCart);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const cartItems = useCartState();
+  const { totalPrice: contextTotalPrice } = useCartTotals();
+  const [mappedCartItems, setMappedCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadCart = () => {
+    const mapCartItems = () => {
       try {
-        const existingCart = localStorage.getItem("cart");
-        const cart: Product[] = existingCart ? JSON.parse(existingCart) : [];
-        
-        if (!Array.isArray(cart)) throw new Error("Invalid cart data format");
-
-        const mappedCart: CartItem[] = cart.map(item => ({
+        const mappedCart: CartItem[] = cartItems.map(item => ({
           id: item.id,
           name: item.title,
           price: Number(item.price),
@@ -56,18 +40,16 @@ const Checkout = () => {
           image: item.image
         }));
 
-        setCartItems(mappedCart);
+        setMappedCartItems(mappedCart);
         setError(null);
       } catch (err) {
-        console.error("Error loading cart:", err);
-        setError("Failed to load your cart. Please try again.");
-      } finally {
-        setIsLoading(false);
+        console.error("Error mapping cart items:", err);
+        setError("Failed to process your cart items. Please try again.");
       }
     };
 
-    loadCart();
-  }, [state]);
+    mapCartItems();
+  }, [cartItems]);
 
   const handleCheckout = async () => {
     setIsProcessing(true);
@@ -85,7 +67,7 @@ const Checkout = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          items: cartItems,
+          items: mappedCartItems,
           customerEmail: "user@example.com"
         })
       });
@@ -111,14 +93,9 @@ const Checkout = () => {
     }
   };
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-
-  const shippingPrice = totalPrice > 100 ? 0 : 15;
-  const taxPrice = totalPrice * 0.1;
-  const grandTotal = totalPrice + shippingPrice + taxPrice;
+  const shippingPrice = contextTotalPrice > 100 ? 0 : 15;
+  const taxPrice = contextTotalPrice * 0.1;
+  const grandTotal = contextTotalPrice + shippingPrice + taxPrice;
 
   return (
     <section className={styles.checkoutSection}>
@@ -148,7 +125,7 @@ const Checkout = () => {
                     Try Again
                   </button>
                 </div>
-              ) : cartItems.length === 0 ? (
+              ) : mappedCartItems.length === 0 ? (
                 <div className={styles.emptyState}>
                   <div className={styles.emptyMessage}>Your cart is empty</div>
                   <Link href="/products" className={styles.shopButton}>
@@ -158,14 +135,14 @@ const Checkout = () => {
               ) : (
                 <>
                   <PlaceOrder 
-                    cartItems={cartItems} 
-                    totalPrice={totalPrice} 
+                    cartItems={mappedCartItems} 
+                    totalPrice={contextTotalPrice} 
                   />
                   
                   <div className={styles.pricingSummary}>
                     <div className={styles.pricingRow}>
                       <span>Subtotal</span>
-                      <span>${totalPrice.toFixed(2)}</span>
+                      <span>${contextTotalPrice.toFixed(2)}</span>
                     </div>
                     <div className={styles.pricingRow}>
                       <span>Shipping</span>
@@ -190,7 +167,7 @@ const Checkout = () => {
 
                   <button 
                     onClick={handleCheckout}
-                    disabled={isProcessing || cartItems.length === 0}
+                    disabled={isProcessing || mappedCartItems.length === 0}
                     className={styles.checkoutButton}
                   >
                     {isProcessing ? (

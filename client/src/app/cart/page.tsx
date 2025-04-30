@@ -1,93 +1,70 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PageHeader from "@/components/common/pageHeader";
 import PageFooter from "@/components/common/pageFooter";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "../../redux/store";
 import styles from "./cart.module.css";
 import Image from "next/image";
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-  qty: number;
-}
+import { useCartState, useCartActions } from '@/contexts/cartContext';
 
 const Cart = () => {
-  const state = useSelector((state: RootState) => state.handleCart);
-  const dispatch: AppDispatch = useDispatch();
-  
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+ 
+
+  const cartItems = useCartState();
+
+
+  const {
+    handleAddItem,
+    handleIncrement,
+    handleDecrement
+  } = useCartActions();
+
+  // Sync with localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const existingCart = localStorage.getItem("cart");
+      if (existingCart) {
+        const parsedCart = JSON.parse(existingCart);
+        parsedCart.forEach((item: any) => handleAddItem(item));
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    const existingCart = localStorage.getItem("cart");
-    let cart: Product[] = existingCart ? JSON.parse(existingCart) : [];
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
 
-    cart = cart.map((item) => ({
-      ...item,
-      qty: isNaN(item.qty) || item.qty < 1 ? 1 : item.qty,
-      price: isNaN(item.price) ? 1 : item.price,
-      rating: {
-        rate: isNaN(item.rating?.rate) ? 1 : item.rating.rate,
-        count: isNaN(item.rating?.count) ? 1 : item.rating.count,
-      },
-    }));
 
-    setCartItems(cart);
-  }, []);
+
+
+  // debugging 
+
+  const handleClick = () => {
+    console.log('Cart items:', cartItems);
+  };
 
   const EmptyCart = () => (
     <div className={styles.emptyContainer}>
       <div className={styles.emptyContent}>
         <h2 className={styles.emptyTitle}>🛒 Your Cart is Empty</h2>
         <p className={styles.emptyText}>Looks like you haven&apos;t added anything to your cart yet.</p>
-        <Link href="/" className={styles.continueButton}>
+
+        <button
+           onClick={handleClick}
+        >
+        <Link href="/" className={styles.continueButton} 
+     >
+        
           <i className="fa fa-arrow-left me-2"></i>Continue Shopping
         </Link>
+        </button>
+        
       </div>
     </div>
   );
-
-  const handleAddToCart = (item: Product) => {
-    const found = cartItems.find((p) => p.id === item.id);
-    let updatedCart = [...cartItems];
-
-    if (!found) {
-      const newItem = {
-        ...item,
-        qty: 1,
-        price: isNaN(item.price) ? 1 : item.price,
-        rating: {
-          rate: isNaN(item.rating?.rate) ? 1 : item.rating.rate,
-          count: isNaN(item.rating?.count) ? 1 : item.rating.count,
-        },
-      };
-      updatedCart.push(newItem);
-    } else {
-      updatedCart = updatedCart.map((p) =>
-        p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-      );
-    }
-
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
-
-  const handleRemoveFromCart = (item: Product) => {
-    let updatedCart = cartItems.filter((p) => p.id !== item.id);
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
 
   const ShowCart = () => {
     const headerText = ["Product", "Price", "Quantity", "Subtotal"];
@@ -130,14 +107,14 @@ const Cart = () => {
 
                 <div className={styles.quantityControls}>
                   <button
-                    onClick={() => handleRemoveFromCart(item)}
+                    onClick={() => handleDecrement(item.id)}
                     className={styles.quantityButton}
                   >
                     <i className="fas fa-minus"></i>
                   </button>
                   <p className={styles.quantityDisplay}>{item.qty}</p>
                   <button
-                    onClick={() => handleAddToCart(item)}
+                    onClick={() => handleIncrement(item.id)}
                     className={styles.quantityButton}
                   >
                     <i className="fas fa-plus"></i>
@@ -177,7 +154,6 @@ const Cart = () => {
                 Go to Checkout
               </Link>
             </div>
-
           </div>
         </div>
       </div>
