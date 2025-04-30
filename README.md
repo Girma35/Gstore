@@ -1,6 +1,7 @@
 # GStore - Ecommerce Platform
 
-![GStore Logo](https://cdn.pixabay.com/photo/2017/01/31/13/14/ecommerce-2026080_1280.png)
+![image](https://github.com/user-attachments/assets/aa3e32ea-d835-408a-b3a0-c35dfbea8a8c)
+
 
 
 [![Build Status](https://img.shields.io/github/workflow/status/Girma35/Gstore/CI)](https://github.com/Girma35/Gstore/actions)
