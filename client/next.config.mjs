@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ['fakestoreapi.com'],
   },
+  output: 'export',
   async rewrites() {
     return [
       {
