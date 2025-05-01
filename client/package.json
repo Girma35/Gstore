@@ -5,7 +5,7 @@
   "proxy": "http://localhost:5000",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
      "export": "next export",
     "lint": "next lint"
